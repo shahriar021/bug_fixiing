@@ -10,7 +10,7 @@ module.exports = {
     unstable_allowRequireContext: true,
     getTransformOptions: async () => ({
       transform: {
-        experimentalImportSupport: false,
+        experimentalImportSupport: true,
         inlineRequires: true,
       },
     }),

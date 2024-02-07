@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {importAllScreens} from './utils';
-import StackNavigator from './StackNavigator'; // Import your StackNavigator
 import ScreenWrapper from './ScreenWrapper';
+import StackNavigator from './StackNavigator';
 
 const screens = importAllScreens();
+console.log(screens)
 
 const NavigatorPage = () => {
   const navigation = useNavigation();

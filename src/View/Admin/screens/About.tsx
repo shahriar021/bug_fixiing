@@ -7,7 +7,10 @@ const About = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <Button title="Go to Home" onPress={() => navigation.navigate('./Home')} />
+      <Button
+        title="Go to Home"
+        onPress={() => navigation.navigate('./Home')}
+      />
       {/* ... other components */}
     </View>
   );

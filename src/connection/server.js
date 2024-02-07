@@ -14,12 +14,11 @@ app.get('/building/building_list', buliding.allBuilding);
 const ModuleInfoModel = require('../model/module_info/module_info_model');
 app.get('/module_info/module_info_list', ModuleInfoModel.moduleInfoList);
 
-
 app.get('/', (req, res) => {
-  res.send('Server running from MDHRShohel');
+  res.send('Server running from shahriar');
 });
 
 const port = process.env.PORT || 5002;
 app.listen(port, () => {
-  console.log(`server is running on port: ${port} from MDHRShohel`);
+  console.log(`server is running on port: ${port} from shahriar`);
 });

@@ -7,10 +7,13 @@ import FirstBox from './View/Admin_layout/navigation/FirstBox';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import NavigatorPage from '../NavigatorPage';
+
 import NavigatorList from '../NavigatorList';
-import ScreenWrapper from '../ScreenWrapper';
+
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import NavigatorPage from './View/Admin_layout/navigation/NavigatorPage';
+import ScreenWrapper from './View/Admin_layout/navigation/ScreenWrapper';
 
 const Stack = createStackNavigator();
 

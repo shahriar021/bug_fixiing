@@ -30,6 +30,7 @@ import {View} from 'react-native';
 import {importAllScreens} from './utils';
 
 const screens = importAllScreens();
+console.log(screens);
 
 const ScreenWrapper = ({route}) => {
   const {screenName} = route.params;
