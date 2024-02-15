@@ -72,6 +72,7 @@ app.get(
   '/transport_allowance/transport_allowance_list',
   usersModel.TransportAllowanceAllList,
 );
+app.get('/module_info/module_info-list', usersModel.moduleInfoList);
 
 // app.post('/signup', (req, res) => {
 //   const {full_name, email, password, mobile, gender, religion} = req.body;
@@ -91,9 +92,12 @@ app.get(
 //     return res.status(200).json({success: true, userId: results.insertId});
 //   });
 // });
-app.get('/', (req, res) => {
-  res.send('Server running shahriar chowdhury');
-});
+app.get("/module_info/module_info_all",usersModel.getPageGroupAndControllerNamesssId)
+
+
+  app.get('/', (req, res) => {
+    res.send('Server running shahriar chowdhury');
+  });
 
 const port = process.env.PORT || 5002;
 app.listen(port, () => {

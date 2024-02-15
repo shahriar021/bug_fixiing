@@ -26,18 +26,22 @@
 
 // ScreenWrapper.js
 import React from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
+// import {importAllComponents} from './utils';
 import {importAllScreens} from './utils';
 
 const screens = importAllScreens();
-console.log(screens);
+
+//console.log(screens);
 
 const ScreenWrapper = ({route}) => {
   const {screenName} = route.params;
+ 
 
   // Render the selected screen in full-screen mode
   const SelectedScreen = screens[screenName];
-  console.log(SelectedScreen);
+  console.log(screenName, 'SelectedScreen')
+  //console.log(SelectedScreen);
 
   return (
     <View style={{flex: 1}}>

@@ -1,166 +1,173 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {importAllScreens} from './utils';
-import ScreenWrapper from './ScreenWrapper';
-import StackNavigator from './StackNavigator';
 
-const screens = importAllScreens();
-console.log(screens)
+import React, { useEffect, useState } from 'react';
+import { View, TouchableOpacity, Text, ScrollView, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { importAllScreens } from './utils';
 
-const NavigatorPage = () => {
+
+const NavigatorPage = ({route}) => {
+  
+  const {setSelectedModal} = route.params;
+console.log(setSelectedModal)
   const navigation = useNavigation();
   const [selectedScreen, setSelectedScreen] = useState(null);
+  const [routes, setRoute] = useState('');
+  console.log(routes, 'route')
+  
+  const screens = importAllScreens();
 
-  const handleScreenPress = screenName => {
+  
+  const ScreenComponent = screens[routes];
+
+  console.log('ScreenComponent: ', ScreenComponent)
+
+  const mainColor = '#6FC8D8';
+
+  // const handleScreenPress = (screenName) => {
+  //   //console.log('screenName: ', screenName)
+  //   setSelectedScreen(screenName);
+  //   setRoute(screenName);
+  //   // navigation.navigate('ScreenWrapper', { ScreenComponent });
+  //   navigation.navigate(ScreenComponent)
+  // };
+  const handleScreenPress = (screenName: any,controllerName) => {
+    setSelectedModal(controllerName)
+    console.log(screenName,)
+    console.log(controllerName, 'controller_name')
     setSelectedScreen(screenName);
-    // navigation.navigate(screenName);
-    navigation.navigate('ScreenWrapper', {screenName});
+    setRoute(screenName);
+    navigation.navigate('ScreenWrapper', { screenName: screenName,screenTitle: formatString(screenName) });
   };
+  
 
+  const [allModuleInfo, setAllModuleInfo] = useState([])
+  useEffect(() => {
+    fetch(`http://192.168.0.125:5002/module_info/module_info_all`)
+    .then(res => res.json())
+    .then(data => setAllModuleInfo(data))
+  }, [])
+
+  // const filteredMethodNames = allModuleInfo.reduce((acc, page) => {
+  //   page.controllers.forEach((controller) => {
+  //     controller.display_names.forEach((display) => {
+  //       display.method_names.forEach((method) => {
+  //         if (method.endsWith("_all")) {
+  //           acc.push(method);
+  //         }
+  //       });
+  //     });
+  //   });
+  //   return acc;
+  // }, []);
+  
+  // console.log(filteredMethodNames);
+  // console.log(allModuleInfo.map(module => module.controllers.map(controller => controller.display_names.map(displayName => displayName.method_names[0]))))
+  // console.log( allModuleInfo.map(module => module.controllers.map(controller =>
+  //   controller.display_names.map(displayName => displayName.method_names))))
+
+
+
+  const formatString = (str: any) => {
+    const words = str?.split('_');
+
+    const formattedWords = words?.map((word: any) => {
+      const capitalizedWord = word?.charAt(0).toUpperCase() +    word.slice(1).toLowerCase();
+      return capitalizedWord;
+    });
+
+    return formattedWords?.join(' ');
+  };
   return (
-    // <View style={{flex: 1}}>
-    //   <StackNavigator selectedScreen={selectedScreen} screens={screens} />
-    //   <View
-    //     style={{
-    //       flex: 1,
-    //       flexDirection: 'column',
-    //       justifyContent: 'space-around',
-    //       padding: 5,
-    //     }}>
-    //     {Object.keys(screens).map(name => (
-    //       <TouchableOpacity
-    //         key={name}
-    //         onPress={() => handleScreenPress(name)}
-    //         style={{
-    //           padding: 10,
-    //           backgroundColor:
-    //             selectedScreen === name ? 'lightblue' : 'transparent',
-    //         }}>
-    //         <Text>{name}</Text>
-    //       </TouchableOpacity>
-    //     ))}
-    //   </View>
-    // </View>
-    <View style={{flex: 1}}>
-      {/* <StackNavigator selectedScreen={selectedScreen} screens={screens} /> */}
-      <View style={{width: '100%', height: 400, backgroundColor: 'lightblue'}}>
-        <Text
-          style={{
-            display: 'flex',
-            textAlign: 'center',
-            color: 'red',
-            fontSize: 30,
-          }}>
-          this is a dashboard
-        </Text>
+    <View style={styles.container}>
+
+
+      {/* Header Section */}
+      <View style={[styles.header, { backgroundColor: mainColor }]}>
+        <Text style={styles.headerText}>HR Allowance</Text>
       </View>
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-          padding: 5,
-        }}>
-        {Object.keys(screens).map(name => (
+      <ScrollView style={styles.content}>
+  {allModuleInfo.map(module =>
+    module.controllers.map(controller =>
+      controller.display_names.map(displayName => {
+        const methodNames = displayName.method_names.filter(methodName => methodName.endsWith('_all'));
+       
+
+        return methodNames.map(methodName => (
+          <TouchableOpacity
+            key={methodName}
+            onPress={() => handleScreenPress(methodName, controller.controller_name)}
+            style={[
+              styles.screenButton,
+              {
+                backgroundColor: selectedScreen === controller ? mainColor : '#3498db',
+                borderColor: selectedScreen === controller ? mainColor : '#0f9ea8',
+              },
+            ]}
+          >
+            <Text style={styles.screenButtonText}>
+              {formatString(controller.controller_name)}
+            </Text>
+          </TouchableOpacity>
+        ));
+      })
+    ))
+    }
+</ScrollView>
+
+
+      {/* Main Content Section */}
+      {/* <ScrollView style={styles.content}>
+        {Object.keys(screens).map((name, index) => (
           <TouchableOpacity
             key={name}
             onPress={() => handleScreenPress(name)}
-            style={{
-              padding: 10,
-              backgroundColor:
-                selectedScreen === name ? 'lightblue' : 'transparent',
-            }}>
-            <Text>{name}</Text>
+            style={[
+              styles.screenButton,
+              {
+                backgroundColor: selectedScreen === name ? mainColor : '#3498db',
+                borderColor: selectedScreen === name ? mainColor : '#0f9ea8',
+              },
+            ]}
+          >
+            <Text style={styles.screenButtonText}>{name}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView> */}
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerText: {
+    color: 'white',
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  content: {
+    flex: 1,
+    padding: 10,
+  },
+  screenButton: {
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  screenButtonText: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
+
 export default NavigatorPage;
-
-// // NavigatorPage.js
-// // import React from 'react';
-// // import { createStackNavigator } from '@react-navigation/stack';
-// // import NavigatorList from './NavigatorList';
-
-// // const Stack = createStackNavigator();
-
-// // const StackNavigator = () => {
-// //   return (
-// //     <Stack.Navigator>
-// //       <Stack.Screen name="NavigatorList" component={NavigatorList} />
-// //       {/* Add other screens as needed */}
-// //     </Stack.Navigator>
-// //   );
-// // };
-
-// // export default StackNavigator;
-
-// NavigatorPage.js
-// import React from 'react';
-// import {createStackNavigator} from '@react-navigation/stack';
-// import NavigatorList from './NavigatorList';
-
-// const Stack = createStackNavigator();
-
-// const NavigatorPage = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="NavigatorList" component={NavigatorList} />
-//       {/* Add other screens as needed */}
-//     </Stack.Navigator>
-//   );
-// };
-
-// export default NavigatorPage;
-
-// NavigatorPage.js
-// import React, { useState } from 'react';
-// import { View, TouchableOpacity, Text } from 'react-native';
-// import { useNavigation } from '@react-navigation/native';
-// import StackNavigator from './StackNavigator';
-// import { importAllScreens } from './utils';
-
-// const screens = importAllScreens();
-
-// const NavigatorPage = () => {
-//   const navigation = useNavigation();
-//   const [selectedScreen, setSelectedScreen] = useState(null);
-
-//   const handleScreenPress = screenName => {
-//     setSelectedScreen(screenName);
-//     // Navigate to a separate screen, not 'NavigatorPage'
-//     navigation.navigate('ScreenWrapper', { screenName });
-//   };
-
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <StackNavigator selectedScreen={selectedScreen} screens={screens} />
-//       <View
-//         style={{
-//           flexDirection: 'column',
-//           justifyContent: 'space-around',
-//           padding: 5,
-//         }}
-//       >
-//         {Object.keys(screens).map(name => (
-//           <TouchableOpacity
-//             key={name}
-//             onPress={() => handleScreenPress(name)}
-//             style={{
-//               padding: 10,
-//               backgroundColor:
-//                 selectedScreen === name ? 'lightblue' : 'transparent',
-//             }}
-//           >
-//             <Text>{name}</Text>
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default NavigatorPage;
