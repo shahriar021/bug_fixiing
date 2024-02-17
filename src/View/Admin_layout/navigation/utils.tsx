@@ -18,20 +18,22 @@ export const importAllScreens = () => {
   // return screenComponents;
   
 
-  // const modals = require.context('../../Modals/', true, /\.tsx$/);
-  // const modalComponents: { [key: string]: React.ComponentType<any> } = {};
-  // modals.keys().forEach((fileName: string) => {
-  //   const modalName = fileName.replace(/^.*[\\\/]/, '').split('.')[0];
-  //   modalComponents[modalName] = modals(fileName).default;
-  // });
-
-  // return modalComponents;
+  
 
 
   
 };
 
+export const modalComponents = () => {
+  const modals = require.context('../../Modals/', true, /\.tsx$/);
+  const modalComponents: { [key: string]: React.ComponentType<any> } = {};
+  modals.keys().forEach((fileName: string) => {
+    const modalName = fileName.replace(/^.*[\\\/]/, '').split('.')[0];
+    modalComponents[modalName] = modals(fileName).default;
+  });
 
+  return modalComponents;
+}
 
 
 // utils.tsx

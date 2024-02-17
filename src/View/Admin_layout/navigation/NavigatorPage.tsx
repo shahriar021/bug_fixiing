@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { importAllScreens } from './utils';
+import { importAllScreens,modalComponents } from './utils';
 
 
 const NavigatorPage = ({route}) => {
@@ -15,7 +15,8 @@ console.log(setSelectedModal)
   console.log(routes, 'route')
   
   const screens = importAllScreens();
-
+   const modal = modalComponents();
+    //console.log('modals : ',modal)
   
   const ScreenComponent = screens[routes];
 
@@ -36,6 +37,18 @@ console.log(setSelectedModal)
     console.log(controllerName, 'controller_name')
     setSelectedScreen(screenName);
     setRoute(screenName);
+
+
+
+
+    const modalComponent = modal[controllerName];
+    // if (modalComponent) {
+    //   modalComponent.openModal(); // Call a function to open the modal
+    // }
+
+
+
+
     navigation.navigate('ScreenWrapper', { screenName: screenName,screenTitle: formatString(screenName) });
   };
   

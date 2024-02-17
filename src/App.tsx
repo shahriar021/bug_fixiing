@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {Alert, SafeAreaView, StatusBar,Text, View} from 'react-native';
+import {Alert, Modal, SafeAreaView, StatusBar,Text, View} from 'react-native';
 import DrawerNav from './View/Admin_layout/navigation/DrawerNav';
 import Colors from './constants/Colors';
 import StackNav from './View/Admin_layout/navigation/StackNav';
@@ -23,6 +23,7 @@ import ScreenWrapper from './View/Admin_layout/navigation/ScreenWrapper';
 import { useEffect, useState } from 'react';
 
 import { importAllScreens } from './View/Admin_layout/navigation/utils';
+import { modalComponents } from './View/Admin_layout/navigation/utils';
 
 
 
@@ -30,9 +31,20 @@ const Stack = createStackNavigator();
 
 
 
+
 const App = () => {
   const screen = importAllScreens();
-  console.log(screen)
+  console.log(screen, '----------------------------')
+
+  const modal = modalComponents();
+  console.log('modals names are : ', modal)
+
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   const [allModuleInfo, setAllModuleInfo] = useState([])
   useEffect(() => {
@@ -51,8 +63,11 @@ const App = () => {
 
   // console.log(allModuleInfo,"all_module")
 
-  const [selectedModal, setSelectedModal] = useState('');
-console.log(selectedModal, 'selectedModal')
+  const [selectedModal, setSelectedModal] = useState([]);
+  const [selectedModals, setSelectedModals] = useState([]);
+ console.log(selectedModal, 'selectedModal')
+ console.log(selectedModals, 'selectedModals')
+
 
 
 // console.log(allModuleInfo)
@@ -103,7 +118,7 @@ const data = allModuleInfo
   .flat() // Use filter and indexOf to remove duplicates
    // Use filter and indexOf to remove duplicates
 
-console.log(data[0]);
+console.log((data[0]), 'typeof(data[0])');
 
 // console.log(data[0][0][0])
 // console.log(data[0][0][0], '[0]nayan');
@@ -194,11 +209,30 @@ const formatString = (str: any) => {
                   <TouchableOpacity
                     onPress={() => {
                       //button for modal..
-                      Alert.alert(formatString(data[0]))
+                      // Alert.alert(formatString(data[0]))
+
+                      // const selectedModal = modal[data[0]]; // Change this based on your data structure
+                      // setSelectedModal(selectedModal)
+
+
+
+
+                     
+                    const selectedMethodName = data[0];
+    
+                    Alert.alert(modal[data[0]], formatString(selectedMethodName));
+
+                    
+                    setSelectedModals(modal[data[0]]);
+          
+
+                    toggleModal();
+
                     }}
                   >
                     <Icon color={"#A52A2A"} name='plus' size={38} />
                   </TouchableOpacity>
+                  
                 </View>
             ),
           })}

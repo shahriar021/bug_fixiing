@@ -1,9 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, Modal } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons'; // Import your preferred icon library
+//import { Ionicons } from '@expo/vector-icons'; // Import your preferred icon library
 
 const MobileAllowanceCreate = ({ isVisible, closeModal }) => {
+
+
+
   return (
     <Modal
       animationType="slide"  // Choose animation type as per your preference
@@ -12,12 +15,12 @@ const MobileAllowanceCreate = ({ isVisible, closeModal }) => {
       onRequestClose={() => {
         closeModal();  // Add a function to close the modal
       }}
-    >
+    ><Text>mobile</Text>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text>Mobile Allowance Create</Text>
           <TouchableOpacity onPress={closeModal}>
-            <Ionicons name="close-circle" size={24} color="black" />
+            {/* //<Ionicons name="close-circle" size={24} color="black" /> */}
           </TouchableOpacity>
         </View>
       </View>
