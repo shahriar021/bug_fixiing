@@ -440,7 +440,7 @@ const MobileAllowanceAll = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch(`http://192.168.0.125:5002/mobile_allowance/mobile_allowance_list`)
+    fetch(`http://192.168.0.111:5002/mobile_allowance/mobile_allowance_list`)
       .then(res => res.json())
       .then(data => {
         setMobileAllowanceLists(data);
@@ -484,7 +484,8 @@ const MobileAllowanceAll = () => {
     console.log(newMobileAllowanceItem);
     try {
       const response = await fetch(
-        `http://192.168.0.125:5002/mobile_allowance/mobile_allowance_create`,
+        
+        `http://192.168.0.111:5002/mobile_allowance/mobile_allowance_create`,
         {
           method: 'POST',
           headers: {
@@ -521,7 +522,7 @@ const MobileAllowanceAll = () => {
     console.log(id);
 
     fetch(
-      `http://192.168.0.125:5002/mobile_allowance/mobile_allowance_delete/${id}`,
+      `http://192.168.0.111:5002/mobile_allowance/mobile_allowance_delete/${id}`,
       {
         method: 'POST',
       },
@@ -642,11 +643,11 @@ const MobileAllowanceAll = () => {
         
         </View>
       ))}
-      <Button
+      {/* <Button
         style={styles.buttonOpen}
         title="Create Mobile Allowance"
         onPress={() => setShowModal(true)}
-      />
+      /> */}
     </ScrollView>)
     }
       

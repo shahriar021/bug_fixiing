@@ -26,6 +26,12 @@ import { importAllScreens } from './View/Admin_layout/navigation/utils';
 import { modalComponents } from './View/Admin_layout/navigation/utils';
 
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
 
 const Stack = createStackNavigator();
 
@@ -48,7 +54,7 @@ const App = () => {
 
   const [allModuleInfo, setAllModuleInfo] = useState([])
   useEffect(() => {
-    fetch(`http://192.168.0.125:5002/module_info/module_info_all`)
+    fetch(`http://192.168.0.111:5002/module_info/module_info_all`)
     .then(res => res.json())
     .then(data => setAllModuleInfo(data))
   }, []);
@@ -138,7 +144,7 @@ const formatString = (str: any) => {
   return (
     
     <SafeAreaView style={{flex:1}}>
-      <StatusBar backgroundColor={Colors.red} barStyle="light-content" />
+      <StatusBar backgroundColor={Colors.white} barStyle="dark-content" />
       
       <NavigationContainer>
       <Stack.Navigator>
@@ -209,7 +215,7 @@ const formatString = (str: any) => {
                   <TouchableOpacity
                     onPress={() => {
                       const selectedMethodName = data[0];
-                        setSelectedModal(selectedMethodName);
+                      setSelectedModals(selectedMethodName);
                       toggleModal()
                       //button for modal..
                       // Alert.alert(formatString(data[0]))
@@ -243,13 +249,13 @@ const formatString = (str: any) => {
         
         
       </Stack.Navigator>
-      {selectedModal && (
+      {selectedModals && (
   <Modal
     animationType="slide"
     transparent={true}
     visible={isModalVisible}
   >
-    {modal[selectedModal] && React.createElement(modal[selectedModal], {
+    {modal[selectedModals] && React.createElement(modal[selectedModals], {
       isVisible: isModalVisible,
       toggleModal: toggleModal,
     })}

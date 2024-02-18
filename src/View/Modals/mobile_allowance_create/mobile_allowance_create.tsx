@@ -1,16 +1,32 @@
-import React from 'react';
-import { StyleSheet, Text, View, Modal } from 'react-native';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
+import { StyleSheet, Text, View, Modal, Button } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 //import { Ionicons } from '@expo/vector-icons'; // Import your preferred icon library
 
 const MobileAllowanceCreate = ({isVisible,
   toggleModal}) => {
 
+    const [amount, setAmount] = useState("500");
+    const [number, setNumber] =  useState<any>(99658741);
 
+    const handleAmountChange = (text:any) => {
+      // Handle any logic related to amount change if needed
+      setAmount(text);
+    };
+
+    const handleNumberChange =(num:any)=>{
+      setNumber(num)
+    }
+
+    const handleClose = () => {
+      // Handle any logic before closing the modal if needed
+      toggleModal();
+    };
 
   return (
     <Modal
-      animationType="slide"  // Choose animation type as per your preference
+      animationType="slide"  
       transparent={true}
       visible={isVisible}
       onRequestClose={toggleModal}>
@@ -18,10 +34,26 @@ const MobileAllowanceCreate = ({isVisible,
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text>Mobile Allowance Create</Text>
-          <TextInput placeholder='your amount: '/>
-          <TouchableOpacity onPress={() => toggleModal}>
-            <Text style={styles.closeButton}>Close</Text>
-          </TouchableOpacity>
+          <TextInput
+           placeholder='Enter your amount'
+          onChangeText={handleAmountChange}
+          value={amount}
+          />
+          <TextInput
+          placeholder='Enter your number'
+          keyboardType="numeric"
+          onChangeText={handleNumberChange}
+          value={number.toString()}  // Convert number to string
+          />
+
+          <Button title='close'
+            color='#984565'
+            onPress={()=>handleClose()}
+          />
+
+            
+          
+          
         </View>
       </View>
     </Modal>
@@ -54,7 +86,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginTop: 10,
-    color: 'blue', // You can customize the color
+    color: 'red', // You can customize the color
     fontSize: 16,
     fontWeight: 'bold',
     textDecorationLine: 'underline',

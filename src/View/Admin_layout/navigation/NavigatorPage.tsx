@@ -55,7 +55,7 @@ console.log(setSelectedModal)
 
   const [allModuleInfo, setAllModuleInfo] = useState([])
   useEffect(() => {
-    fetch(`http://192.168.0.125:5002/module_info/module_info_all`)
+    fetch(`http://192.168.0.111:5002/module_info/module_info_all`)
     .then(res => res.json())
     .then(data => setAllModuleInfo(data))
   }, [])
