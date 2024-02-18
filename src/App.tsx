@@ -20,7 +20,7 @@ import NavigatorList from '../NavigatorList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import NavigatorPage from './View/Admin_layout/navigation/NavigatorPage';
 import ScreenWrapper from './View/Admin_layout/navigation/ScreenWrapper';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { importAllScreens } from './View/Admin_layout/navigation/utils';
 import { modalComponents } from './View/Admin_layout/navigation/utils';
@@ -208,6 +208,9 @@ const formatString = (str: any) => {
                   {/* Second Button */}
                   <TouchableOpacity
                     onPress={() => {
+                      const selectedMethodName = data[0];
+                        setSelectedModal(selectedMethodName);
+                      toggleModal()
                       //button for modal..
                       // Alert.alert(formatString(data[0]))
 
@@ -218,15 +221,15 @@ const formatString = (str: any) => {
 
 
                      
-                    const selectedMethodName = data[0];
+                    // const selectedMethodName = data[0];
     
-                    Alert.alert(modal[data[0]], formatString(selectedMethodName));
+                    // Alert.alert(modal[data[0]], formatString(selectedMethodName));
 
                     
-                    setSelectedModals(modal[data[0]]);
+                    // setSelectedModals(modal[data[0]]);
           
 
-                    toggleModal();
+                    // toggleModal();
 
                     }}
                   >
@@ -240,6 +243,18 @@ const formatString = (str: any) => {
         
         
       </Stack.Navigator>
+      {selectedModal && (
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={isModalVisible}
+  >
+    {modal[selectedModal] && React.createElement(modal[selectedModal], {
+      isVisible: isModalVisible,
+      toggleModal: toggleModal,
+    })}
+  </Modal>
+)}
       </NavigationContainer>
     </SafeAreaView>
   );

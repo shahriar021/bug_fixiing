@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Modal } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 //import { Ionicons } from '@expo/vector-icons'; // Import your preferred icon library
 
-const MobileAllowanceCreate = ({ isVisible, closeModal }) => {
+const MobileAllowanceCreate = ({isVisible,
+  toggleModal}) => {
 
 
 
@@ -12,15 +13,14 @@ const MobileAllowanceCreate = ({ isVisible, closeModal }) => {
       animationType="slide"  // Choose animation type as per your preference
       transparent={true}
       visible={isVisible}
-      onRequestClose={() => {
-        closeModal();  // Add a function to close the modal
-      }}
-    ><Text>mobile</Text>
+      onRequestClose={toggleModal}>
+    
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text>Mobile Allowance Create</Text>
-          <TouchableOpacity onPress={closeModal}>
-            {/* //<Ionicons name="close-circle" size={24} color="black" /> */}
+          <TextInput placeholder='your amount: '/>
+          <TouchableOpacity onPress={() => toggleModal}>
+            <Text style={styles.closeButton}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -51,5 +51,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  closeButton: {
+    marginTop: 10,
+    color: 'blue', // You can customize the color
+    fontSize: 16,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
   },
 });
