@@ -1,52 +1,152 @@
-import React from 'react';
-import { StyleSheet, Text, View, Modal } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-//import { Ionicons } from '@expo/vector-icons'; // Import your preferred icon library
+import {SERVER_IP_ADDRESS} from '@env';
+import React, {useState} from 'react';
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
-const TransportAllowanceCreate = ({ isVisible, closeModal }) => {
+const TransportAllowanceCreate = ({
+  isVisible,
+  toggleModal,
+  
+}: {
+  isVisible: boolean;
+  toggleModal: () => void;
+  method: string;
+}) => {
+  const [mobile, setMobile] = useState('');
+  const [warning, setWarning] = useState('');
+
+  const MobileChange = (text: string) => {
+    setMobile(text);
+    setWarning('');
+  };
+
+  const handleSubmit = async () => {
+    if (!setMobile.trim()) {
+      setWarning('Please enter a value.');
+      return;
+    }
+
+    setWarning('');
+    setMobile('');
+    toggleModal();
+
+    
+
+    
+  };
+
   return (
     <Modal
-      animationType="slide"  // Choose animation type as per your preference
+      animationType="slide"
       transparent={true}
       visible={isVisible}
-      onRequestClose={() => {
-        closeModal();  // Add a function to close the modal
-      }}
-    ><Text>transport</Text>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text>Transport Allowance Create</Text>
-          <TouchableOpacity onPress={closeModal}>
-            {/* //<Ionicons name="close-circle" size={24} color="black" /> */}
-          </TouchableOpacity>
+      onRequestClose={toggleModal}>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <View style={styles.card}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>TransportAllowanceCreate</Text>
+              <TouchableOpacity
+                onPress={toggleModal}
+                style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.cardBody}>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>
+                Mobile Number<Text style={styles.required}> *</Text>
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Mobile Number"
+                  placeholderTextColor="red"
+                  value={mobile}
+                  onChangeText={MobileChange}
+                />
+
+
+              
+                {warning ? <Text style={styles.warning}>{warning}</Text> : null}
+              </View>
+              <View style={styles.submitButton}>
+                <Button title="Submit" onPress={handleSubmit} color="#007bff" />
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     </Modal>
   );
 };
 
-export default TransportAllowanceCreate;
-
 const styles = StyleSheet.create({
-  centeredView: {
+  modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+  modalContent: {
+    width: '80%',
+  },
+  card: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    padding: 20,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    marginBottom: 20,
+  },
+  cardTitle: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  closeButton: {
+    padding: 5,
+  },
+  closeButtonText: {
+    color: 'black',
+    fontSize: 24,
+  },
+  cardBody: {},
+  formGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    marginBottom: 5,
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    color: 'black',
+  },
+  submitButton: {
+    marginTop: 10,
+  },
+  warning: {
+    color: 'red',
+    marginTop: 5,
+  },
+  required: {
+    color: 'red',
   },
 });
+
+export default TransportAllowanceCreate;

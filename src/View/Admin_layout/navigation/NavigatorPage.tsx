@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { importAllScreens,modalComponents } from './utils';
 
@@ -79,7 +79,6 @@ console.log(setSelectedModal)
   //   controller.display_names.map(displayName => displayName.method_names))))
 
 
-
   const formatString = (str: any) => {
     const words = str?.split('_');
 
@@ -97,6 +96,8 @@ console.log(setSelectedModal)
       {/* Header Section */}
       <View style={[styles.header, { backgroundColor: mainColor }]}>
         <Text style={styles.headerText}>HR Allowance</Text>
+        
+
       </View>
       <ScrollView style={styles.content}>
   {allModuleInfo.map(module =>

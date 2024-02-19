@@ -1,76 +1,79 @@
-import React, { useState } from 'react';
-import { Alert } from 'react-native';
-import { StyleSheet, Text, View, Modal, Button } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-//import { Ionicons } from '@expo/vector-icons'; // Import your preferred icon library
+import { useState } from "react";
+import { Button, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-const MobileAllowanceCreate = ({isVisible,
-  toggleModal}) => {
+const MobileAllowanceCreate = ({ isVisible, toggleModal }) => {
+  const [mobile, setMobile] = useState('');
+  const [amount, setAmount] = useState('');
 
-    const [amount, setAmount] = useState("500");
-    const [number, setNumber] =  useState<any>(99658741);
+  const MobileChange = text => {
+    setMobile(text);
+  };
 
-    const handleAmountChange = (text:any) => {
-      // Handle any logic related to amount change if needed
-      setAmount(text);
-    };
+  const AmountChange = text => {
+    setAmount(text);
+  };
 
-    const handleNumberChange =(num:any)=>{
-      setNumber(num)
-    }
-
-    const handleClose = () => {
-      // Handle any logic before closing the modal if needed
-      toggleModal();
-    };
+  const handleClose = () => {
+    toggleModal();
+  };
 
   return (
+
+
     <Modal
-      animationType="slide"  
+      animationType="slide"
       transparent={true}
       visible={isVisible}
-      onRequestClose={toggleModal}>
-    
+      onRequestClose={handleClose}
+    >
+
+
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text>Mobile Allowance Create</Text>
+
+          {/* <Text>Mobile Allowance Create</Text> */}
+          
+          {/* <TextInput
+            style={styles.input}
+            placeholder="Mobile Number"
+            value={mobile}
+            onChangeText={MobileChange}
+          /> */}
+
           <TextInput
-           placeholder='Enter your amount'
-          onChangeText={handleAmountChange}
-          value={amount}
-          />
-          <TextInput
-          placeholder='Enter your number'
-          keyboardType="numeric"
-          onChangeText={handleNumberChange}
-          value={number.toString()}  // Convert number to string
+            style={styles.input}
+            placeholder="Amount"
+            // value={amount}
+            autoFocus={true}
+            // onChangeText={AmountChange}
+            // keyboardType="numeric"
           />
 
-          <Button title='close'
-            color='#984565'
-            onPress={()=>handleClose()}
-          />
+          {/* <View style={styles.buttonContainer}>
+            <Button title="Submit" onPress={handleClose} />
+          </View> */}
 
-            
-          
-          
+          <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+
+            <Text style={styles.closeButtonText}>Close</Text>
+
+          </TouchableOpacity>
+
         </View>
-      </View>
+       </View>
+
     </Modal>
   );
 };
-
-export default MobileAllowanceCreate;
 
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   modalView: {
-    margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -83,12 +86,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: '80%',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    color: 'black',
+    width: '80%',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    marginBottom: 20,
   },
   closeButton: {
-    marginTop: 10,
-    color: 'red', // You can customize the color
-    fontSize: 16,
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    padding: 5,
+  },
+  closeButtonText: {
+    color: 'black',
+    fontSize: 18,
   },
 });
+
+export default MobileAllowanceCreate;
